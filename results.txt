@@ -1,0 +1,12 @@
+T1 (sem sync)             | N=2  | Tempo=   768.458 ms | Contador=500781324    | Correto=NAO
+T1 (sem sync)             | N=4  | Tempo=   407.375 ms | Contador=251557444    | Correto=NAO
+T1 (sem sync)             | N=8  | Tempo=   425.325 ms | Contador=208786584    | Correto=NAO
+T2 (mutex)                | N=2  | Tempo= 14983.797 ms | Contador=1000000000   | Correto=SIM
+T2 (mutex)                | N=4  | Tempo= 28011.320 ms | Contador=1000000000   | Correto=SIM
+T2 (mutex)                | N=8  | Tempo= 25543.228 ms | Contador=1000000000   | Correto=SIM
+P1 (sem sync)             | N=2  | Tempo=   685.323 ms | Contador=500691727    | Correto=NAO
+P1 (sem sync)             | N=4  | Tempo=   375.707 ms | Contador=259977193    | Correto=NAO
+P1 (sem sync)             | N=8  | Tempo=   379.196 ms | Contador=197772466    | Correto=NAO
+P2 (semaforo)             | N=2  | Tempo=1573728.967 ms | Contador=1000000000   | Correto=SIM
+P2 (semaforo)             | N=4  | Tempo=1683384.402 ms | Contador=1000000000   | Correto=SIM
+P2 (semaforo)             | N=8  | Tempo=2596231.994 ms | Contador=1000000000   | Correto=SIM
