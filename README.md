@@ -280,6 +280,78 @@ O resultado final fica correto, mas o custo de execução aumenta muito. Isso oc
 
 # Análise dos Resultados
 
+---
+
+## Execução Comparativa em Outro Ambiente
+
+Além da execução principal realizada no macOS com Apple M1, os experimentos também foram executados em outro computador, com o objetivo de comparar o comportamento dos tempos em uma arquitetura diferente.
+
+Essa segunda execução não altera a conclusão principal do trabalho, mas ajuda a observar como o desempenho pode variar conforme o processador, o sistema operacional, o ambiente de virtualização e o custo dos mecanismos de sincronização.
+
+### Ambiente Comparativo
+
+| Item | Valor |
+|------|-------|
+| Arquitetura | x86_64 |
+| CPU | Intel Core i5-4570 @ 3.20GHz |
+| CPUs disponíveis | 4 |
+| Núcleos por socket | 4 |
+| Threads por núcleo | 1 |
+| Vendor | GenuineIntel |
+| Virtualização | Hypervisor Microsoft |
+| L1d Cache | 128 KiB |
+| L1i Cache | 128 KiB |
+| L2 Cache | 1 MiB |
+| L3 Cache | 6 MiB |
+| Byte Order | Little Endian |
+
+### Resultados da Execução Comparativa
+
+| Cenário | N | Tempo (ms) | Contador Final | Correto? |
+|:-------:|:-:|-----------:|---------------:|:--------:|
+| T1 — Threads sem sync | 2 | 1.074,395 | 505.924.956 | Não |
+| T1 — Threads sem sync | 4 | 617,657 | 257.771.386 | Não |
+| T1 — Threads sem sync | 8 | 597,565 | 164.629.278 | Não |
+| T2 — Threads com mutex | 2 | 47.426,303 | 1.000.000.000 | Sim |
+| T2 — Threads com mutex | 4 | 44.743,094 | 1.000.000.000 | Sim |
+| T2 — Threads com mutex | 8 | 51.583,632 | 1.000.000.000 | Sim |
+| P1 — Processos sem sync | 2 | 1.026,704 | 501.608.681 | Não |
+| P1 — Processos sem sync | 4 | 571,513 | 255.588.877 | Não |
+| P1 — Processos sem sync | 8 | 570,464 | 159.618.345 | Não |
+| P2 — Processos com semáforo | 2 | 248.816,773 | 1.000.000.000 | Sim |
+| P2 — Processos com semáforo | 4 | 225.278,983 | 1.000.000.000 | Sim |
+| P2 — Processos com semáforo | 8 | 213.194,338 | 1.000.000.000 | Sim |
+
+### Comparação entre as Duas Execuções
+
+| Cenário | N | Tempo Execução Principal (ms) | Tempo Outro PC (ms) | Observação |
+|:-------:|:-:|------------------------------:|--------------------:|------------|
+| T1 | 2 | 768,458 | 1.074,395 | Outro PC mais lento |
+| T1 | 4 | 407,375 | 617,657 | Outro PC mais lento |
+| T1 | 8 | 425,325 | 597,565 | Outro PC mais lento |
+| T2 | 2 | 14.983,797 | 47.426,303 | Outro PC mais lento |
+| T2 | 4 | 28.011,320 | 44.743,094 | Outro PC mais lento |
+| T2 | 8 | 25.543,228 | 51.583,632 | Outro PC mais lento |
+| P1 | 2 | 685,323 | 1.026,704 | Outro PC mais lento |
+| P1 | 4 | 375,707 | 571,513 | Outro PC mais lento |
+| P1 | 8 | 379,196 | 570,464 | Outro PC mais lento |
+| P2 | 2 | 1.573.728,967 | 248.816,773 | Outro PC mais rápido |
+| P2 | 4 | 1.683.384,402 | 225.278,983 | Outro PC mais rápido |
+| P2 | 8 | 2.596.231,994 | 213.194,338 | Outro PC mais rápido |
+
+### Análise da Comparação
+
+A execução comparativa confirma o mesmo comportamento geral observado na execução principal: os cenários sem sincronização, T1 e P1, são mais rápidos, porém produzem resultados incorretos devido a condições de corrida. Já os cenários com sincronização, T2 e P2, produzem o valor correto de 1.000.000.000, mas apresentam maior tempo de execução.
+
+Nos cenários T1, T2 e P1, o segundo computador apresentou tempos maiores do que a execução principal. Isso pode estar relacionado à diferença de arquitetura, quantidade de CPUs disponíveis, frequência efetiva do processador, ambiente de virtualização e comportamento do escalonador.
+
+Um ponto interessante aparece no cenário P2. Na execução principal, com macOS e Apple M1, o uso de semáforo POSIX nomeado apresentou tempos extremamente altos. Já no segundo computador, mesmo sendo mais lento em outros cenários, o tempo de P2 foi consideravelmente menor. Isso indica que o custo de sincronização entre processos pode variar bastante entre sistemas operacionais, bibliotecas e implementações de semáforo.
+
+Portanto, a comparação reforça que os resultados absolutos de tempo dependem fortemente do ambiente de execução. No entanto, a conclusão conceitual permanece a mesma: sincronização garante corretude, mas adiciona overhead; ausência de sincronização reduz o tempo, mas compromete a consistência dos dados.
+
+---
+
+
 ## 1. Consistência de Dados
 
 Os experimentos T1 e P1 mostram que acessar uma variável compartilhada sem sincronização causa inconsistência.
