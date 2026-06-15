@@ -1,0 +1,92 @@
+Iniciando simulação com 4 frames disponíveis.
+========================================
+
+--- Passo 1: Acesso à Página 7 (Page Fault) ---
+[Frame 0]: Página 7 <-- Alterado
+[Frame 1]: [Vazio]
+[Frame 2]: [Vazio]
+[Frame 3]: [Vazio]
+----------------------------------------
+
+--- Passo 2: Acesso à Página 0 (Page Fault) ---
+[Frame 0]: Página 7
+[Frame 1]: Página 0 <-- Alterado
+[Frame 2]: [Vazio]
+[Frame 3]: [Vazio]
+----------------------------------------
+
+--- Passo 3: Acesso à Página 1 (Page Fault) ---
+[Frame 0]: Página 7
+[Frame 1]: Página 0
+[Frame 2]: Página 1 <-- Alterado
+[Frame 3]: [Vazio]
+----------------------------------------
+
+--- Passo 4: Acesso à Página 2 (Page Fault) ---
+[Frame 0]: Página 7
+[Frame 1]: Página 0
+[Frame 2]: Página 1
+[Frame 3]: Página 2 <-- Alterado
+----------------------------------------
+
+--- Passo 5: Acesso à Página 0 (Hit) ---
+[Frame 0]: Página 7
+[Frame 1]: Página 0
+[Frame 2]: Página 1
+[Frame 3]: Página 2
+----------------------------------------
+
+--- Passo 6: Acesso à Página 3 (Page Fault) ---
+[Frame 1]: Página 0
+[Frame 2]: Página 1
+[Frame 3]: Página 2
+[Frame 0]: Página 3 <-- Alterado
+----------------------------------------
+
+--- Passo 7: Acesso à Página 0 (Hit) ---
+[Frame 1]: Página 0
+[Frame 2]: Página 1
+[Frame 3]: Página 2
+[Frame 0]: Página 3
+----------------------------------------
+
+--- Passo 8: Acesso à Página 4 (Page Fault) ---
+[Frame 2]: Página 1
+[Frame 3]: Página 2
+[Frame 0]: Página 3
+[Frame 1]: Página 4 <-- Alterado
+----------------------------------------
+
+--- Passo 9: Acesso à Página 2 (Hit) ---
+[Frame 2]: Página 1
+[Frame 3]: Página 2
+[Frame 0]: Página 3
+[Frame 1]: Página 4
+----------------------------------------
+
+--- Passo 10: Acesso à Página 3 (Hit) ---
+[Frame 2]: Página 1
+[Frame 3]: Página 2
+[Frame 0]: Página 3
+[Frame 1]: Página 4
+----------------------------------------
+
+--- Passo 11: Acesso à Página 0 (Page Fault) ---
+[Frame 3]: Página 2
+[Frame 0]: Página 3
+[Frame 1]: Página 4
+[Frame 2]: Página 0 <-- Alterado
+----------------------------------------
+
+--- Passo 12: Acesso à Página 3 (Hit) ---
+[Frame 3]: Página 2
+[Frame 0]: Página 3
+[Frame 1]: Página 4
+[Frame 2]: Página 0
+----------------------------------------
+
+================ STATS FINAIS ================
+Total de Acessos: 12
+Total de Page Faults: 7
+Taxa de Page Faults: 58.33%
+==============================================
